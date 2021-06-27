@@ -11,18 +11,19 @@ function [U,Ud,data] = linear_elasticity(V,F,b,bc,varargin)
   %   b  #b list of indices into V of fixed vertices
   %   bc #bc by d list of fixed vertex positions
   %   Optional:
-  %     'Lambda'  followed by first Lamé parameter {1.7423333}, scalar
+  %     'Lambda'  followed by first Lamé parameter in GPa {1.7423333}, scalar
   %       (homogeneous) or #F by 1 list of per-element values
-  %     'Mu'  followed by shear modulus {0.0115}, scalar (homogeneous) or #F by
+  %     'Mu'  followed by shear modulus {0.0115} in GPa, scalar (homogeneous) or #F by
   %       1 list of per-element values
-  %     'Young'  followed by Young's modulus, scalar (homogeneous) or #F by 1
+  %     'Young'  followed by Young's modulus in GPa, scalar (homogeneous) or #F by 1
   %       list of per-element values
-  %     'Nu'  followed by Poisson's ratio, scalar (homogeneous) or #F by 1 list
+  %     'Nu'  followed by Poisson's ratio in GPa, scalar (homogeneous) or #F by 1 list
   %       of per-element values
-  %     'U0'  followed by #V by d list of previous displacements
-  %     'Ud0'  followed by #V by d list of previous velocities: (U0 - Um1)/dt
-  %     'BodyForces'  followed by #V by d list of body forces
-  %     'TimeStep' followed by time step {0.1}
+  %     'U0'  followed by #V by d list of previous displacements in metres
+  %     'Ud0'  followed by #V by d list of previous velocities: (U0 -
+  %       Um1)/dt in metres/second
+  %     'BodyForces'  followed by #V by d list of body forces in Newtons
+  %     'TimeStep' followed by time step {0.1} in seconds
   %     'Data'  see output {[]}
   % Outputs:
   %   U  #V by d list of vertex displacements
