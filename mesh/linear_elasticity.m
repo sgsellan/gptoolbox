@@ -19,6 +19,7 @@ function [U,Ud,data] = linear_elasticity(V,F,b,bc,varargin)
   %       list of per-element values
   %     'Nu'  followed by Poisson's ratio in GPa, scalar (homogeneous) or #F by 1 list
   %       of per-element values
+  %     'Volume' #F vector of volumes/areas
   %     'U0'  followed by #V by d list of previous displacements in metres
   %     'Ud0'  followed by #V by d list of previous velocities: (U0 -
   %       Um1)/dt in metres/second
@@ -67,14 +68,15 @@ function [U,Ud,data] = linear_elasticity(V,F,b,bc,varargin)
   U0 = zeros(size(V));
   Ud0 = zeros(size(V));
   fext = zeros(size(V));
+  volumes = [];
   %% Parameters so that off-diagonals _should_ be zero
   %lambda = 1;
   %mu = -2*lambda;
 
   % Map of parameter names to variable names
   params_to_variables = containers.Map( ...
-    {'Lambda','Mu','Nu','Young','U0','Ud0','BodyForces','TimeStep','Data'}, ...
-    {'lambda','mu','nu','young','U0','Ud0',      'fext',      'dt','data'});
+    {'Lambda','Mu','Nu','Young','U0','Ud0','BodyForces','TimeStep','Data','Volumes','Mass'}, ...
+    {'lambda','mu','nu','young','U0','Ud0',      'fext',      'dt','data','volumes','mass'});
   v = 1;
   while v <= numel(varargin)
     param_name = varargin{v};
@@ -106,8 +108,11 @@ function [U,Ud,data] = linear_elasticity(V,F,b,bc,varargin)
     % nu = lambda/(2*(lambda+mu));
 
     [data.K,data.C,data.strain,data.A,data.M] = ...
-      linear_elasticity_stiffness(V,F,'Lambda',lambda,'Mu',mu);
+      linear_elasticity_stiffness(V,F,'Lambda',lambda,'Mu',mu,'Volumes',volumes);
 
+    if ~isempty(mass)
+        data.M = repdiag(mass,size(V,2));
+    end
 
     % ∇⋅σ + F = ü
     % Ku₂ + MF = M(u₂-2u₁+u₀)/dt²

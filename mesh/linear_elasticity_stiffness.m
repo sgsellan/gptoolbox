@@ -14,6 +14,7 @@ function [K,C,strain,A,M] = linear_elasticity_stiffness(V,F,varargin)
   %       list of per-element values
   %     'Nu'  followed by Poisson's ratio, scalar (homogeneous) or #F by 1 list
   %       of per-element values
+  %     'Volumes' #F vector of volumes/areas
   % Outputs:
   %   K  #V*d by #V*d sparse stiffness matrix
   %   C  #F**(d*(d+1)/2) by #F**(d*(d+1)/2) sparse constituitive model matrix 
@@ -29,10 +30,11 @@ function [K,C,strain,A,M] = linear_elasticity_stiffness(V,F,varargin)
   lambda = K-2/3*mu;
   young = [];
   nu = [];
+  volumes = [];
   % Map of parameter names to variable names
   params_to_variables = containers.Map( ...
-    {'Lambda','Mu','Nu','Young'}, ...
-    {'lambda','mu','nu','young'});
+    {'Lambda','Mu','Nu','Young','Volumes'}, ...
+    {'lambda','mu','nu','young','volumes'});
   v = 1;
   while v <= numel(varargin)
     param_name = varargin{v};
@@ -168,6 +170,9 @@ function [K,C,strain,A,M] = linear_elasticity_stiffness(V,F,varargin)
         0*I             0*I             0*I     0*I    mu*I     0*I ; ...
         0*I             0*I             0*I     0*I     0*I    mu*I ];
     A = diag(sparse(volume(V,F)));
+  end
+  if ~isempty(volumes)
+      A = diag(sparse(volumes));
   end
   Z = sparse(size(V,1),size(F,1));
   D = strain';
