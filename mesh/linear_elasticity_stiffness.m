@@ -179,7 +179,6 @@ function [K,C,strain,A,M] = linear_elasticity_stiffness(V,F,varargin)
   A = repdiag(A,dim*(dim+1)/2);
   K = D * A * C * strain;
 
-
   M = massmatrix(V,F);
   M = repdiag(M,size(V,2));
 

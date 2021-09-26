@@ -5,7 +5,8 @@ function s = path_to_tetgen()
   %   s  path to tetgen as string
   %  
   % See also: tetgen
-
+  s = '/usr/local/bin/tetgen';
+  return;
   if ispc
     warning([ ...
       'Dear Ladislav, is there a standard place to put executables on a pc?' ...

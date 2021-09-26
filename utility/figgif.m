@@ -11,8 +11,8 @@ function f = figgif(filename,varargin)
   [SIf,cm] = rgb2ind(frame.cdata,256,varargin{:});
   f = exist(filename,'file');
   if ~f
-    imwrite(SIf,cm,filename,'Loop',Inf,'Delay',0);
+    imwrite(SIf,cm,filename,'Loop',Inf,'Delay',0.5);
   else
-    imwrite(SIf,cm, filename,'WriteMode','append','Delay',0);
+    imwrite(SIf,cm, filename,'WriteMode','append','Delay',0.5);
   end
 end

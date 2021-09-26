@@ -111,7 +111,7 @@ function M = massmatrix(V,F, type)
     
     % warn if any rows are all zero (probably unreferenced vertices)
     if(any(sum(M,2) == 0))
-      warning('Some rows have all zeros... probably unreferenced vertices..');
+%      warning('Some rows have all zeros... probably unreferenced vertices..');
     end
   case 4
     % vertices must be defined in 3D
