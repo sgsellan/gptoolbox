@@ -69,6 +69,7 @@ function [U,Ud,data] = linear_elasticity(V,F,b,bc,varargin)
   Ud0 = zeros(size(V));
   fext = zeros(size(V));
   volumes = [];
+  mass = [];
   %% Parameters so that off-diagonals _should_ be zero
   %lambda = 1;
   %mu = -2*lambda;
